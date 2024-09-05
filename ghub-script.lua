@@ -16,7 +16,7 @@ function OnEvent(event, arg)
   end
 end
 
-function log()
+function Log()
   gCount = gCount + 1
   if gCount == 11 then
     gCount = 1
@@ -28,7 +28,7 @@ function log()
   OutputLogMessage("\n-----------------------------")
 end
 
-function goBack()
+function GoBack()
   PressKey("lalt") -- 뒤로가기 버튼 누르기
   Sleep(50)
   PressKey("left")
@@ -39,7 +39,7 @@ function goBack()
   Sleep(50)
 end
 
-function testPress()
+function TestPress()
     PressKey(tostring(0))  
     Sleep(50)            
     ReleaseKey(tostring(0)) 
