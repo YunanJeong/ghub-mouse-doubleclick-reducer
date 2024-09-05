@@ -3,17 +3,17 @@
 FXXKED_BUTTON = 4
 IGNORE_INTERVAL_MS = 300
 
-gLastTime = 0
-gCurTime = 0
+gLastEventTime = 0
+gEventTime = 0
 gCount = 0
 
 function OnEvent(event, arg)
   if event == "MOUSE_BUTTON_PRESSED" and arg == FXXKED_BUTTON then
-    gCurTime = GetRunningTime()
-    if gLastTime == 0 or (gCurTime - gLastTime > IGNORE_INTERVAL_MS) then
+    gEventTime = GetRunningTime()
+    if gLastEventTime == 0 or (gEventTime - gLastEventTime > IGNORE_INTERVAL_MS) then
       LogNormal()
       GoBack() --TestPress()
-      gLastTime = gCurTime
+      gLastEventTime = gEventTime
     else
       LogDuplicate()
     end
@@ -21,14 +21,14 @@ function OnEvent(event, arg)
 end
 
 function LogNormal()
-  OutputLogMessage("\n{\"LastClick\": %d, \"CurrentClick\": %d, \"Interval\": %d, \"Case\": \"Normal\", \"Count\": %d}",
-                  gLastTime, gCurTime, gCurTime-gLastTime, GetCount()
+  OutputLogMessage("\n{\"EventTime\": %d, \"LastEventTime\": %d, \"Interval\": %d, \"Case\": \"%s\", \"Contents\": \"%s\"}",
+                  gEventTime, gLastEventTime, gEventTime-gLastEventTime, "Normal", tostring(GetCount())
   )
 end
 
 function LogDuplicate()
-  OutputLogMessage("\n{\"LastClick\": %d, \"CurrentClick\": %d, \"Interval\": %d, \"Case\": \"Duplicate\", \"Comment\": \"Ignore unintentional double-clicks for %dms\"}",
-                  gLastTime, gCurTime, gCurTime-gLastTime, IGNORE_INTERVAL_MS
+  OutputLogMessage("\n{\"EventTime\": %d, \"LastEventTime\": %d, \"Interval\": %d, \"Case\": \"%s\", \"Contents\": \"%s\"}",
+                  gEventTime, gLastEventTime, gEventTime-gLastEventTime, "Duplicate", "Ignore unintentional double-clicks for " .. tostring(IGNORE_INTERVAL_MS) .. "ms"
   )
 end
 
