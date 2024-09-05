@@ -11,24 +11,18 @@ function OnEvent(event, arg)
   if event == "MOUSE_BUTTON_PRESSED" and arg == FXXKED_BUTTON then
     gEventTime = GetRunningTime()
     if gLastEventTime == 0 or (gEventTime - gLastEventTime > IGNORE_INTERVAL_MS) then
-      LogNormal()
+      Log("Normal", GetCount())
       GoBack() --TestPress()
       gLastEventTime = gEventTime
     else
-      LogDuplicate()
+      Log("Duplicate", "Ignore unintentional double-clicks for " .. tostring(IGNORE_INTERVAL_MS) .. "ms")
     end
   end
 end
 
-function LogNormal()
+function Log(case, contents)
   OutputLogMessage("\n{\"EventTime\": %d, \"LastEventTime\": %d, \"Interval\": %d, \"Case\": \"%s\", \"Contents\": \"%s\"}",
-                  gEventTime, gLastEventTime, gEventTime-gLastEventTime, "Normal", tostring(GetCount())
-  )
-end
-
-function LogDuplicate()
-  OutputLogMessage("\n{\"EventTime\": %d, \"LastEventTime\": %d, \"Interval\": %d, \"Case\": \"%s\", \"Contents\": \"%s\"}",
-                  gEventTime, gLastEventTime, gEventTime-gLastEventTime, "Duplicate", "Ignore unintentional double-clicks for " .. tostring(IGNORE_INTERVAL_MS) .. "ms"
+                  gEventTime, gLastEventTime, gEventTime-gLastEventTime, tostring(case), tostring(contents)
   )
 end
 
