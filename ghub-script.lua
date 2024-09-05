@@ -8,29 +8,25 @@ gCurTime = 0
 gCount = 0
 
 function OnEvent(event, arg)
-  gCurTime = GetRunningTime()
-  local interval = gCurTime - gLastTime
   if event == "MOUSE_BUTTON_PRESSED" and arg == FXXKED_BUTTON then
-    if gLastTime == 0 or (interval > IGNORE_INTERVAL_MS) then
-      Log()
+    gCurTime = GetRunningTime()
+    OutputLogMessage("\n{\"LastClick\": %d, \"CurrentClick\": %d, \"Interval\": %d}", gLastTime, gCurTime, gCurTime-gLastTime)
+    if gLastTime == 0 or (gCurTime - gLastTime > IGNORE_INTERVAL_MS) then
+      OutputLogMessage("\n> Normal Case. Count: %d", GetCount())
       GoBack() --TestPress()
       gLastTime = gCurTime
     else
-      OutputLogMessage("\n> Ignore unintentional double-clicks that occured within %dms(<%dms)", interval, IGNORE_INTERVAL_MS)
+      OutputLogMessage("\n> Duplicate Case. Ignore unintentional double-clicks for %dms", IGNORE_INTERVAL_MS)
     end
   end
 end
 
-function Log()
+function GetCount()
   gCount = gCount + 1
   if gCount == 11 then
     gCount = 1
   end
-  OutputLogMessage("\n-----------------------------")
-  OutputLogMessage("\n> Last Click    : %d", gLastTime)
-  OutputLogMessage("\n> Current Click : %d", gCurTime)
-  OutputLogMessage("\n> Count         : %d", gCount)
-  OutputLogMessage("\n-----------------------------")
+  return gCount
 end
 
 function GoBack()
