@@ -9,8 +9,8 @@ function OnEvent(event, arg)
   gCurTime = GetDate()
   if event == "MOUSE_BUTTON_PRESSED" and arg == FXXKED_BUTTON then -- arg4번: 뒤로가기 물리버튼
     if gLastTime == "-1" or (gCurTime ~= gLastTime) then
-      log()
-      goBack() --testPress()
+      Log()
+      GoBack() --TestPress()
       gLastTime = gCurTime
     end
   end
