@@ -1,7 +1,7 @@
 -- 5: MOUSE FORWARD SIDE BUTTON
 -- 4: MOUSE GOBACK SIDE BUTTON
 FXXKED_BUTTON = 4
-IGNORE_INTERVAL_MS = 300
+IGNORE_INTERVAL_MS = 300 -- Optimize this milliseconds, while monitoring logs
 
 gLastEventTime = 0
 gEventTime = 0
@@ -15,14 +15,14 @@ function OnEvent(event, arg)
       GoBack() --TestPress()
       gLastEventTime = gEventTime
     else
-      Log("Duplicate", "Ignore unintentional double-clicks for " .. tostring(IGNORE_INTERVAL_MS) .. "ms")
+      Log("Duplicate", "Ignore unintentional double-clicks within " .. tostring(IGNORE_INTERVAL_MS) .. "ms")
     end
   end
 end
 
 function Log(case, contents)
-  OutputLogMessage("\n{\"EventTime\": %d, \"LastEventTime\": %d, \"Interval\": %d, \"Case\": \"%s\", \"Contents\": \"%s\"}",
-                  gEventTime, gLastEventTime, gEventTime-gLastEventTime, tostring(case), tostring(contents)
+  OutputLogMessage("\n{\"EventTime\": %d, \"Interval\": %d, \"Case\": \"%s\", \"Contents\": \"%s\"}",
+                  gEventTime, gEventTime-gLastEventTime, tostring(case), tostring(contents)
   )
 end
 
